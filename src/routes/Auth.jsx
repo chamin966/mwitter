@@ -1,6 +1,7 @@
-import authService from '../fbase';
+import { authService } from 'fbase';
 import {
   //파이어베이스 레퍼런스에서 Overview에 다 있다.
+  //파라미터 auth에 fbase.jsx 에서 만들어 놓은 authService가 들어가므로 메서드만 불러와도 됨.
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
