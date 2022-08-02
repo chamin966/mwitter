@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { dbService } from 'fbase';
+import { dbService, storageService } from 'fbase';
 import { updateDoc, deleteDoc, doc } from '../../node_modules/firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 
 const Mweet = ({ mweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
@@ -11,6 +12,8 @@ const Mweet = ({ mweetObj, isOwner }) => {
 
     if (ok) {
       await deleteDoc(doc(dbService, `mweetsInDb/${mweetObj.id}`));
+      await deleteObject(ref(storageService, mweetObj.attachmentUrl));
+      //storage 안에 저장된 이미지가 있는 mweetObj.attachmentUrl경로르 다시 ref로 변환하여 삭제
     }
   };
 
@@ -42,6 +45,7 @@ const Mweet = ({ mweetObj, isOwner }) => {
       ) : (
         <>
           <h4>{mweetObj.text}</h4>
+          {mweetObj.attachmentUrl && <img src={mweetObj.attachmentUrl} alt='이미지' width='50px' height='50px' />}
           {isOwner && (
             <>
               <button onClick={onDeleteClick}>Delete Nweet</button>
