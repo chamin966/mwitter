@@ -10,6 +10,8 @@ function App() {
     authService.onAuthStateChanged((user) => {
       if (user) {
         setUserObj(user);
+      } else {
+        setUserObj(null);
       }
       setInit(true); //상태에 변화가 생겼다는 것이 firebase가 초기화 되었음을 의미
     });
@@ -21,7 +23,15 @@ function App() {
   };
 
   //XML 사용하려면 프레그먼트와 같은 부모태그 반드시 필요!!
-  return <>{init ? <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} userObj={userObj} /> : 'Initialization...'}</>;
+  return (
+    <>
+      {init ? (
+        <AppRouter refreshUser={refreshUser} isLoggedIn={Boolean(userObj)} userObj={userObj} />
+      ) : (
+        'Initialization...'
+      )}
+    </>
+  );
 }
 
 export default App;

@@ -17,7 +17,11 @@ const Profile = ({ refreshUser, userObj }) => {
   useEffect(() => {
     const getMyMweets = () => {
       //v8에서 .get()이 v9에서 query()의 기능중 하나로 흡수됨
-      const q = query(collection(dbService, 'mweetsInDb'), where('creatorId', '==', userObj.uid), orderBy('createdAt', 'desc'));
+      const q = query(
+        collection(dbService, 'mweetsInDb'),
+        where('creatorId', '==', userObj.uid),
+        orderBy('createdAt', 'desc')
+      );
       onSnapshot(q, (qSnapshot) => {
         const myMweetsArray = qSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         //id를 안주면 나중에 map으로 풀 수가 없음.
@@ -39,7 +43,8 @@ const Profile = ({ refreshUser, userObj }) => {
     if (userObj.DisplayName !== newDisplayName) {
       //이름이 이전과 같지 않다면
       await updateProfile(userObj, { displayName: newDisplayName }); //새로운 이름으로 userObj의  displayName 속성을 바꾼다.
-      refreshUser(); //재렌더링
+      refreshUser(); //재렌더링을 위한 App의 함수 호출
+      setNewDisplayName(''); //다시 수정창 비우기
     }
   };
 

@@ -12,8 +12,11 @@ const Mweet = ({ mweetObj, isOwner }) => {
 
     if (ok) {
       await deleteDoc(doc(dbService, `mweetsInDb/${mweetObj.id}`));
-      await deleteObject(ref(storageService, mweetObj.attachmentUrl));
-      //storage 안에 저장된 이미지가 있는 mweetObj.attachmentUrl경로르 다시 ref로 변환하여 삭제
+      if (mweetObj.attachmentUrl) {
+        //만약 이미지가 있다면
+        await deleteObject(ref(storageService, mweetObj.attachmentUrl));
+        //storage 안에 저장된 이미지가 있는 mweetObj.attachmentUrl경로로 다시 ref로 변환하여 삭제
+      }
     }
   };
 
